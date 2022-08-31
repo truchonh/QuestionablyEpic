@@ -141,6 +141,9 @@ export const trinket_data = [
       {
         coefficient: 0.345768 * 1.25,
         table: -7,
+        avgTargets: 4.33,
+        cooldown: 150,
+        finalRuneTable: -8,
       },
     ],
   },

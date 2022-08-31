@@ -6,6 +6,7 @@ import { runBCSimC } from "../../../BurningCrusade/Engine/SimCImport/SimCImportE
 // import { createEmitAndSemanticDiagnosticsBuilderProgram } from "typescript";
 import { useSelector } from "react-redux";
 import { styled } from "@mui/system";
+import ls from 'local-storage'
 
 const StyledButton = styled(Button)(({ theme }) => ({
   color: "white",
@@ -36,6 +37,7 @@ export default function SimCraftInput(props) {
   };
 
   const handleSubmit = () => {
+    ls.set("last-simc_"+ ls.get("activeChar"), simC);
     if (gameType === "Retail") runSimC(simC, props.player, contentType, setErrorMessage, props.simcSnack, handleClose, setSimC);
     else runBCSimC(simC, props.player, contentType, setErrorMessage, props.simcSnack, handleClose, setSimC);
   };
@@ -87,6 +89,7 @@ export default function SimCraftInput(props) {
             style={{ height: "100%" }}
             variant="outlined"
             onChange={(e) => setSimC(e.target.value)}
+            defaultValue={ls.get("last-simc_"+ ls.get("activeChar")) || ""}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();

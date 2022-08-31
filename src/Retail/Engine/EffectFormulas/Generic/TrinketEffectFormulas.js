@@ -1,4 +1,4 @@
-import { convertPPMToUptime, getProcessedValue } from "../EffectUtilities";
+import { convertPPMToUptime, getProcessedValue, getScalarValue } from "../EffectUtilities";
 import { trinket_data } from "./TrinketData";
 import { STATDIMINISHINGRETURNS } from "General/Engine/STAT";
 import { getAdjustedHolyShock } from "../Paladin/PaladinMiscFormulas"
@@ -400,8 +400,31 @@ export function getTrinketEffect(effectName, player, castModel, contentType, ite
     bonus_stats.haste = runeStats;
     bonus_stats.crit = runeStats;
     bonus_stats.versatility = runeStats;
-    //bonus_stats.mastery = runeStats; // Fourth Rune.
+    bonus_stats.mastery = runeStats; // Fourth Rune.
     //
+
+    const finalRuneCoefficient = 201.656725;
+    const effectiveness = 0.5; // to take into account having to wait for 5th rune to line up with a pull.
+    const expectedMitigation = 1 - 0.3; // physical damage, some will get mitigated by armor.
+
+    const tooltipValue = getProcessedValue(finalRuneCoefficient, -8, itemLevel) * player.getStatMultiplier("CRITVERS");
+
+    bonus_stats.dps = tooltipValue * effect.avgTargets * effectiveness * expectedMitigation / effect.cooldown;
+    console.log(itemLevel, bonus_stats.dps);
+
+    // const observedAvgHit = 34624;
+    
+    // const _statsBackup = { ...player.activeStats }
+
+    // player.activeStats.crit = 800;
+    // player.activeStats.versatility = 942;
+    // player.activeStats.intellect = 2668;
+
+    // const withVersa = observedAvgHit * 1.3 / player.getStatPerc("Versatility");
+    // const estimatedCoefficient = withVersa / getScalarValue(-8, itemLevel);
+    // console.log('coeff ilvl'+ itemLevel +': '+ estimatedCoefficient);
+
+    // player.activeStats = _statsBackup;
   } 
   else if (
     /* ---------------------------------------------------------------------------------------------- */
