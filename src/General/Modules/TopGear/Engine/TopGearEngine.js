@@ -11,7 +11,7 @@ import { getTrinketValue } from "Retail/Engine/EffectFormulas/Generic/TrinketEff
 import { allRamps, allRampsHealing } from "General/Modules/Player/DiscPriest/DiscPriestRamps";
 import { buildRamp } from "General/Modules/Player/DiscPriest/DiscRampGen";
 import { buildBestDomSet } from "../Utilities/DominationGemUtilities";
-import { getItemSet } from "BurningCrusade/Databases/ItemSetsDBRetail.js";
+import { getItemSet } from "Classic/Databases/ItemSetsDBRetail.js";
 import { formatReport } from "General/Modules/TopGear/Engine/TopGearEngineShared";
 
 /**
@@ -513,7 +513,7 @@ function evalSet(itemSet, player, contentType, baseHPS, userSettings, castModel,
     if (stat === "hps") {
       hardScore += (evalStats[stat] / baseHPS) * player.activeStats.intellect;
     } else if (stat === "dps") {
-      if (contentType === "Dungeon") hardScore += (evalStats[stat] * 1.5 / baseHPS) * player.activeStats.intellect;
+      if (contentType === "Dungeon") hardScore += (evalStats[stat] * 1.2 / baseHPS) * player.activeStats.intellect;
       else continue;
     } 
     else if (stat === "mana") {
